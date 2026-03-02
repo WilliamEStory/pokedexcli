@@ -1,15 +1,7 @@
 package main
 
-import (
-	"strings"
-)
+import "github.com/williamestory/pokedexcli/internal/repl"
 
 func main() {
-	startRepl()
-}
-
-func cleanInput(text string) []string {
-	cleaned := strings.TrimSpace(text)
-
-	return strings.Fields(cleaned)
+	repl.StartRepl()
 }

@@ -1,9 +1,10 @@
-package main
+package repl
 
 import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 type cliCommand struct {
@@ -12,7 +13,7 @@ type cliCommand struct {
 	callback    func() error
 }
 
-func startRepl() {
+func StartRepl() {
 	scan := bufio.NewScanner(os.Stdin)
 
 	for {
@@ -55,5 +56,16 @@ func initCommands() map[string]cliCommand {
 			description: "Displays a help message",
 			callback:    commandHelp,
 		},
+		"map": {
+			name:        "map",
+			description: "Displays a list of pokemon locations.",
+			callback:    commandMap,
+		},
 	}
+}
+
+func cleanInput(text string) []string {
+	cleaned := strings.TrimSpace(text)
+
+	return strings.Fields(cleaned)
 }
