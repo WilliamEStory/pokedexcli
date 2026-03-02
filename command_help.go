@@ -5,6 +5,7 @@ import (
 )
 
 func commandHelp() error {
+	commands := initCommands()
 	fmt.Println("Welcome to the Pokedex!")
 	fmt.Println("Usage: ")
 
