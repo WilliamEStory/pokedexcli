@@ -1,19 +1,27 @@
-package repl
+package main
 
 import (
 	"bufio"
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/williamestory/pokedexcli/internal/pokeapi"
 )
 
 type cliCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(*config) error
 }
 
-func StartRepl() {
+type config struct {
+	pokeapiClient    pokeapi.Client
+	nextLocationsURL *string
+	prevLocationsURL *string
+}
+
+func startRepl(cfg *config) {
 	scan := bufio.NewScanner(os.Stdin)
 
 	for {
@@ -35,7 +43,7 @@ func StartRepl() {
 			if !exists {
 				fmt.Println("Unknown command")
 			} else {
-				err := cmd.callback()
+				err := cmd.callback(cfg)
 				if err != nil {
 					fmt.Println("Error executing command:", err)
 				}
@@ -59,7 +67,12 @@ func initCommands() map[string]cliCommand {
 		"map": {
 			name:        "map",
 			description: "Displays a list of pokemon locations.",
-			callback:    commandMap,
+			callback:    commandMapF,
+		},
+		"mapb": {
+			name:        "mapb",
+			description: "Displays the previous page of pokemon locations.",
+			callback:    commandMapB,
 		},
 	}
 }
