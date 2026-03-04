@@ -14,7 +14,7 @@ type Location struct {
 	} `json:"results"`
 }
 
-func commandMapF(cfg *config) error {
+func commandMapF(cfg *config, args ...string) error {
 	locationsResp, err := cfg.pokeapiClient.ListLocations(cfg.nextLocationsURL)
 	if err != nil {
 		return err
@@ -24,13 +24,13 @@ func commandMapF(cfg *config) error {
 	cfg.prevLocationsURL = locationsResp.Previous
 
 	for _, loc := range locationsResp.Results {
-		fmt.Println(loc.Name + "-area")
+		fmt.Println(loc.Name)
 	}
 
 	return nil
 }
 
-func commandMapB(cfg *config) error {
+func commandMapB(cfg *config, args ...string) error {
 	if cfg.prevLocationsURL == nil {
 		fmt.Println("No previous page of locations")
 		return nil
@@ -45,7 +45,7 @@ func commandMapB(cfg *config) error {
 	cfg.prevLocationsURL = locationsResp.Previous
 
 	for _, loc := range locationsResp.Results {
-		fmt.Println(loc.Name + "-area")
+		fmt.Println(loc.Name)
 	}
 
 	return nil
